@@ -1,7 +1,7 @@
 <template>
-<!-- 这是首页文件 默认路径为 / -->
-  <div class="index">
-    首页
+<!-- 这是用户登录页面 -->
+  <div class="login">
+      用户登录页面
   </div>
 </template>
 
