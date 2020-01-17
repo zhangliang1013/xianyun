@@ -1,52 +1,66 @@
 <template>
-  <div class="tab" style="padding : 100px">
-    <div class="button">
-      <span v-for="(value,index) in  ['新闻','娱乐','体育']" :key="index" @click='handleclick(index)'
-       :class="{active: res === index }">
-          {{value}}
-      </span>
+  <div class="tab">
+    <div class="click">
+      <span
+        v-for="(value,index) in ['新闻','娱乐','体育']"
+        :key="index"
+        @click="handleclick(index)"
+        :class="{active : current === index}"
+      >{{value}}</span>
     </div>
-    <ul v-if='res===0'>
-      <li id>伊朗</li>
-      <li id>伊朗</li>
-      <li id>伊朗</li>
+    <ul v-if="current===0">
+      <li>伊朗打飞机</li>
+      <li>伊朗打飞机</li>
+      <li>伊朗打飞机</li>
     </ul>
-    <ul  v-if='res===1'>
-      <li id>爱情公寓</li>
-      <li id>爱情公寓</li>
-      <li id>爱情公寓</li>
+    <ul v-if="current===1">
+      <li>爱情公寓开播了</li>
+      <li>爱情公寓开播了</li>
+      <li>爱情公寓开播了</li>
     </ul>
-    <ul  v-if='res===2'>
-      <li id>国足得冠军</li>
-      <li id>国足得冠军</li>
-      <li id>国足得冠军</li>
+    <ul v-if="current===2">
+      <li>国足得冠军</li>
+      <li>国足得冠军</li>
+      <li>国足得冠军</li>
     </ul>
   </div>
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-            res : 0
-        }
-    },
-    methods : {
-        handleclick(index){
-            this.res = index
-        }
+  data() {
+    return {
+      current: 0
+    };
+  },
+  methods: {
+    handleclick(index) {
+      this.current = index;
     }
+  }
 };
 </script>
 
 <style lang='less' scoped>
-span {
-    cursor: pointer;
-    margin: 20px;
+.tab {
+  text-align: center;
+  // margin: 0 auto;
+  span {
+  display: inline-block;
+  height: 30px;
+  width: 50px;
+  margin: 20px 30px;
 }
+ul {
+  margin-left: 50px;
+  li {
+    padding: 10px;
+  }
+}
+
 .active {
-   color: #fff;
-   background-color: pink;
-   border-bottom: 1px solid red;
+  border-bottom: 2px solid greenyellow;
+  background: pink;
+}
 }
 </style>
