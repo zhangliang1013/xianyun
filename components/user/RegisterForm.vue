@@ -103,7 +103,25 @@ export default {
 
     // 注册
     handleRegSubmit() {
-      console.log(this.form);
+      this.$refs.form.validate((valid) => {
+          if (valid) {
+              const {isPassword,...data} = this.form;
+            //  this.$axios({
+            //      url : '/accounts/register',
+            //      method : 'post',
+            //      data
+            //  }).then(res =>{
+            //     //  console.log(res)
+            //     this.$store.commit('user/getData',res.data)
+            //  })
+            this.$store.dispatch('user/register',data).then( ()=>{
+                this.$message.success('注册并登录完成!')
+                this.$router.push('/')
+            })
+          } else {
+            this.$message.warning('温馨提示，注册验证失败！')
+          }
+        });
     }
   }
 };

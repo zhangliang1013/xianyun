@@ -35,5 +35,17 @@ export const actions= {
                 tel : data
             }
         })
+    },
+
+    // 注册
+    register(store,data){
+     return  this.$axios({
+        url : '/accounts/register',
+        method : 'post',
+        data
+    }).then(res =>{
+       //  console.log(res)
+       store.commit('getData',res.data)
+    })
     }
 }
