@@ -61,14 +61,15 @@ export default {
     //  表单验证成功的操作
          this.$refs.form.validate((valid) => {
           if (valid) {
-            //  console.log(this.form)
+             console.log(this.form)
             this.$axios({
                 url : '/accounts/login',
                 method : 'post',
                 data : this.form
             }).then( res =>{
-                console.log(res)
+                this.$store.commit('user/getData',res.data)
             })
+            
           } else {
             this.$message.warning('温馨提示，登录验证失败！')
           }
