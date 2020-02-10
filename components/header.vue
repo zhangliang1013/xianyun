@@ -12,7 +12,27 @@
       </el-row>
       <div class="login">
         <span>消息</span>
-        <nuxt-link to="/user/login">登录/注册</nuxt-link>
+        <!-- 已经登录的状态 -->
+        <el-dropdown v-if="false">
+          <el-row type="flex" align="middle" class="el-dropdown-link">
+            <nuxt-link to="#">
+              <img src="http://157.122.54.189:9093/images/pic_sea.jpeg" />
+              用户名
+            </nuxt-link>
+            <i class="el-icon-caret-bottom el-icon--right"></i>
+          </el-row>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <nuxt-link to="#">个人中心</nuxt-link>
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <div @click="handleLogout">退出</div>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <!-- 未登录的状态 -->
+        <nuxt-link to="/user/login" v-else>登录/注册</nuxt-link>
       </div>
     </el-row>
   </div>
@@ -60,8 +80,8 @@ export default {};
     .nuxt-link-exact-active {
       background-color: #409eff;
       color: #fff;
-       &:hover{
-       color: #fff
+      &:hover {
+        color: #fff;
       }
     }
   }
@@ -69,6 +89,38 @@ export default {};
     span {
       margin-right: 30px;
     }
+  }
+}
+.el-dropdown-link {
+  margin-left: 20px;
+
+  &:hover {
+    img {
+      border-color: #409eff;
+    }
+  }
+
+  a {
+    display: block;
+  }
+
+  img {
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    border: 2px #fff solid;
+    border-radius: 50px;
+  }
+}
+
+.account-link {
+  font-size: 14px;
+  margin-left: 10px;
+  color: #666;
+
+  &:hover {
+    color: #409eff;
+    text-decoration: underline;
   }
 }
 </style>

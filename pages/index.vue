@@ -83,6 +83,7 @@ export default {
     this.$axios({
       url: "/scenics/banners"
     }).then(res => {
+      // console.log(res)
       const { data } = res.data;
       // 服务器的轮播图数据
       this.banners = data;
