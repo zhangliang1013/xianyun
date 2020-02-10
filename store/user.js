@@ -15,6 +15,7 @@ export  const mutations = {
 
 // 储存异步操作
 export const actions= {
+    // 登录功能
     login(store,data){
       return this.$axios({
             url : '/accounts/login',
@@ -22,6 +23,17 @@ export const actions= {
             data
         }).then( res =>{
             store.commit('getData',res.data)
+        })
+    },
+    
+    // 获取验证码
+    captcha(store,data){
+      return  this.$axios({
+            url : '/captchas',
+            method : 'post',
+            data :{
+                tel : data
+            }
         })
     }
 }

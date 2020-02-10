@@ -86,7 +86,20 @@ export default {
   },
   methods: {
     // 发送验证码
-    handleSendCaptcha() {},
+    handleSendCaptcha() {
+        // this.$axios({
+        //     url : '/captchas',
+        //     method : 'post',
+        //     data :{
+        //         tel : this.form.username
+        //     }
+        // }).then(res =>{
+        //     console.log(res)
+        // })
+        this.$store.dispatch('user/captcha',this.form.username).then(res =>{
+            this.$message.success(`模拟验证码为  ${res.data.code}`)
+        })
+    },
 
     // 注册
     handleRegSubmit() {
