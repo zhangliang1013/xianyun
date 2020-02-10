@@ -43,7 +43,14 @@ export default {
   methods :{
     // 退出操作
     handleLogout(){
-
+      // 直接传空值覆盖即可
+      this.$store.commit('user/getData',{
+         token : '',
+         user :{}
+      })
+       if(this.$store.state.user.userInfo.token == ''){
+        this.$message.success('退出成功！')
+      }
     }
   }
 };

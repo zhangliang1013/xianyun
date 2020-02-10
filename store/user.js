@@ -1,4 +1,4 @@
-
+// 其他组件拿数据
  export  const state = ()=> ({
     userInfo : {
         token : '',
@@ -6,6 +6,7 @@
     }
 })
 
+// 其他的组件储存进来（可传给上面）
 export  const mutations = {
     getData(state,data){
       state.userInfo = data

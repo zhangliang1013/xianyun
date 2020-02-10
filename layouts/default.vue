@@ -38,7 +38,7 @@ html {
  }
  a {
    text-decoration: none;
-   color: #ccc;
+   color: #000;
    }
  em,i {
    font-style: normal
