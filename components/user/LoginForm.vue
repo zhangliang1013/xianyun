@@ -62,12 +62,16 @@ export default {
          this.$refs.form.validate((valid) => {
           if (valid) {
              console.log(this.form)
-            this.$axios({
-                url : '/accounts/login',
-                method : 'post',
-                data : this.form
-            }).then( res =>{
-                this.$store.commit('user/getData',res.data)
+            // this.$axios({
+            //     url : '/accounts/login',
+            //     method : 'post',
+            //     data : this.form
+            // }).then( res =>{
+            //     this.$store.commit('user/getData',res.data)
+            // })
+            this.$store.dispatch('user/login',this.form).then(()=>{
+                this.$message.success('登录成功！')
+                this.$router.push('/')
             })
             
           } else {
