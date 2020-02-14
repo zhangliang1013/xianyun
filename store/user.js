@@ -47,5 +47,26 @@ export const actions= {
        //  console.log(res)
        store.commit('getData',res.data)
     })
+    },
+
+    //搜索机票
+    getAirData(store,data){
+    return   this.$axios({
+            url : 'airs/city',
+            params : {
+                name : data
+            }
+        }).then(res =>{
+            // console.log(res)
+            const {data} = res.data;
+            const newData =  data.map(v =>{
+                 v.value = v.name.replace('市','');
+                 return v;
+             })
+            //  console.log(newData)
+            // this.goData = newData;
+            // callback(newData)
+            return newData;
+        })
     }
 }

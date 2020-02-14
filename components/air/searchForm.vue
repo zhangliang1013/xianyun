@@ -14,24 +14,33 @@
             <el-form-item label="出发城市">
                 <!-- fetch-suggestions 返回输入建议的方法 -->
                 <!-- select 点击选中建议项时触发 -->
+                <!-- 出发城市 -->
                 <el-autocomplete
+                v-model="form.goCity"
                 :fetch-suggestions="queryDepartSearch"
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
                 class="el-autocomplete"
                 ></el-autocomplete>
             </el-form-item>
+
+            <!-- 到达城市 -->
             <el-form-item label="到达城市">
                 <el-autocomplete
+                v-model="form.getCity"
                 :fetch-suggestions="queryDestSearch"
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
                 class="el-autocomplete"
                 ></el-autocomplete>
             </el-form-item>
+
+            <!-- 出发时间 -->
             <el-form-item label="出发时间">
                 <!-- change 用户确认选择日期时触发 -->
-                <el-date-picker type="date" 
+                <el-date-picker 
+                v-model="form.goDate"
+                type="date" 
                 placeholder="请选择日期" 
                 style="width: 100%;"
                 @change="handleDate">
@@ -60,13 +69,29 @@ export default {
                 {icon: "iconfont icondancheng", name: "单程"},
                 {icon: "iconfont iconshuangxiang", name: "往返"}
             ],
+            // tab切换变量
             currentTab: 0,
+            // 存储需要的数据
+            form :{
+                goCity : '',
+                goCityNum : '',
+                getCity : '',
+                getCityNum : '',
+                goDate : ''
+            },
+            // 储存出发城市的数组
+            goData : [],
+            // 储存到达城市的数组
+            getData : []
         }
     },
     methods: {
         // tab切换时触发
         handleSearchTab(item, index){
-            
+            if(index === 1){
+                this.$message.warning('温馨提示，暂时不支持往返功能！')
+                return;
+            }
         },
         
         // 出发城市输入框获得焦点时触发
@@ -77,21 +102,49 @@ export default {
             //     {value: 2},
             //     {value: 3},
             // ]);
-        },
+            
+            if(!value){
+                callback([]);
+                return;
+            };
+            // 没封装的出发城市请求
+            // this.$axios({
+            //     url : 'airs/city',
+            //     params : {
+            //         name : value
+            //     }
+            // }).then(res =>{
+            //     // console.log(res)
+            //     const {data} = res.data;
+            //     const newData =  data.map(v =>{
+            //          v.value = v.name.replace('市','');
+            //          return v;
+            //      })
+            //     //  console.log(newData)
+            //     this.goData = newData;
+            //     callback(newData)
+            // })
 
+            // vuex封装异步请求
+            this.$store.dispatch('user/getAirData',value).then(newData => {
+                this.goData = newData;
+                callback(newData)
+            })
+        },
+          
         // 目标城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, callback){
-            // cb([
-            //     {value: 1},
-            //     {value: 2},
-            //     {value: 3},
-            // ]);
+              if(!value){
+                  callback([]);
+                  return;
+              }
         },
        
         // 出发城市下拉选择时触发
         handleDepartSelect(item) {
-            
+            this.form.goCity = item.value;
+            this.form.goCityNum = item.sort;
         },
 
         // 目标城市下拉选择时触发
