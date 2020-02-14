@@ -17,6 +17,7 @@
                 <!-- 出发城市 -->
                 <el-autocomplete
                 v-model="form.goCity"
+                @blur="goCityBlur"
                 :fetch-suggestions="queryDepartSearch"
                 placeholder="请搜索出发城市"
                 @select="handleDepartSelect"
@@ -28,6 +29,7 @@
             <el-form-item label="到达城市">
                 <el-autocomplete
                 v-model="form.getCity"
+                @blur="getCityBlur"
                 :fetch-suggestions="queryDestSearch"
                 placeholder="请搜索到达城市"
                 @select="handleDestSelect"
@@ -80,9 +82,9 @@ export default {
                 goDate : ''
             },
             // 储存出发城市的数组
-            goData : [],
+            goData : '',
             // 储存到达城市的数组
-            getData : []
+            getData : ''
         }
     },
     methods: {
@@ -104,6 +106,7 @@ export default {
             // ]);
             
             if(!value){
+                this.goData = '';
                 callback([]);
                 return;
             };
@@ -131,14 +134,35 @@ export default {
                 callback(newData)
             })
         },
-          
+        //   出发城市失去焦点的函数
+        goCityBlur(){
+            if(!this.goData){
+                return;
+            }
+             this.form.goCity = this.goData[0].value;
+             this.form.goCityNum = this.goData[0].sort ;
+        },
+        // 到达城市失去焦点的函数
+        getCityBlur(){
+            if(!this.getData){
+                return;
+            }
+              this.form.getCity = this.getData[0].value;
+             this.form.getCityNum = this.getData[0].sort ;
+        },
         // 目标城市输入框获得焦点时触发
         // value 是选中的值，cb是回调函数，接收要展示的列表
         queryDestSearch(value, callback){
               if(!value){
+                  this.getData = '';
                   callback([]);
                   return;
               }
+
+              this.$store.dispatch('user/getAirData',value).then(res=>{
+                  this.getData = res;
+                  callback(res)
+              })
         },
        
         // 出发城市下拉选择时触发
@@ -149,7 +173,8 @@ export default {
 
         // 目标城市下拉选择时触发
         handleDestSelect(item) {
-            
+             this.form.getCity = item.value;
+            this.form.getCityNum = item.sort;
         },
 
         // 确认选择日期时触发
@@ -164,7 +189,7 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           
+           console.log(this.form)
         }
     },
     mounted() {
