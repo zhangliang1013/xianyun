@@ -1,8 +1,8 @@
 <template>
     <div class="flight-item">
-        <div>
+        <div @click='current = !current'>
             <!-- 显示的机票信息 -->
-            <el-row type="flex" align="middle" class="flight-info">
+            <el-row type="flex" align="middle" class="flight-info"  >
                 <el-col :span="6">
                     <span>{{data.airline_name}} </span> {{data.flight_no}}
                 </el-col>
@@ -26,9 +26,9 @@
                 </el-col>
             </el-row>
         </div>
-        <div class="flight-recommend">
+        <div class="flight-recommend" v-if="current">
             <!-- 隐藏的座位信息列表 -->
-            <el-row type="flex"  justify="space-between" align="middle">
+            <el-row type="flex"  justify="space-between" align="middle" >
                 <el-col :span="4">低价推荐</el-col>
                 <el-col :span="20">
                     <el-row type="flex" justify="space-between" align="middle" class="flight-sell"
@@ -56,6 +56,12 @@
 
 <script>
 export default {
+    data () {
+        return {
+            // 控制是否展开机票详情
+            current : false
+        }
+    },
     props : {
         data : Object,
         default : {}
