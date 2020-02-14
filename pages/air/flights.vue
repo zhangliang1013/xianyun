@@ -10,7 +10,7 @@
         <FlightsListHead></FlightsListHead>
 
         <!-- 航班信息 -->
-        <FlightsItem v-for="(item,index) in flightsData.flights" :key="index" :data="item"></FlightsItem>
+        <FlightsItem v-for="(item,index) in pagingList" :key="index" :data="item"></FlightsItem>
       </div>
 
       <!-- 侧边栏 -->
@@ -27,7 +27,7 @@
       :page-sizes="[3, 5, 8, 10]"
       :page-size="pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="400"
+      :total="flightsData.total"
     ></el-pagination>
   </section>
 </template>
@@ -56,15 +56,31 @@ export default {
       // 备份机票列表信息
       backupFlightsData: {},
       //   分页的数据
-      pageIndex: 3,
-      pageSize: 1
+      pageIndex: 1,
+      pageSize: 3
     };
+  },
+//   绑定分页数据
+  computed : {
+    pagingList(){
+        if(!this.flightsData.flights){
+            return;
+        }
+        var arr = this.flightsData.flights.slice(
+            (this.pageIndex - 1) * this.pageSize , this.pageIndex * this.pageSize
+        )
+        return arr;
+    }
   },
   methods: {
     handleSizeChange(val) {
-      console.log(val);
+        //  console.log(val);
+      this.pageSize = val;
     },
-    handleCurrentChange(val) {}
+    handleCurrentChange(val) {
+       this.pageIndex = val;
+    //  console.log(val)
+    }
   },
   mounted() {
     // 获取机票列表信息
@@ -103,6 +119,6 @@ export default {
   width: 240px;
 }
 .el-pagination {
-    text-align: center;
+  text-align: center;
 }
 </style>
