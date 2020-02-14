@@ -192,7 +192,11 @@ export default {
 
         // 触发和目标城市切换时触发
         handleReverse(){
-            
+            const {goCity , goCityNum , getCity , getCityNum} = this.form;
+            this.form.goCity = getCity;
+            this.form.goCityNum = getCityNum;
+            this.form.getCity = goCity;
+            this.form.getCityNum = goCityNum;
         },
 
         // 提交表单是触发
