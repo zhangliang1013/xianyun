@@ -22,7 +22,7 @@
                     <el-option
                     v-for="(item,index) in data.options.flightTimes" :key="index"
                     :label="`${item.from}:00 - ${item.to}:00`"
-                    :value="`${item.from},${item.from}`"
+                    :value="`${item.from},${item.to}`"
                     >
                     </el-option>
                 </el-select>
@@ -57,6 +57,8 @@
                 撤销
     		</el-button>
         </div>
+
+        <div>{{sizerCondition}}</div>
     </div>
 </template>
 
@@ -80,6 +82,47 @@ export default {
     props: {
           data : Object,
           default :{}
+    },
+    computed : {
+         sizerCondition(){
+         
+          let newData = this.data.flights.filter(v => {
+               let valid = true;
+            //筛选机场
+             if(this.airport && this.airport !== v.org_airport_name){
+                  valid = false;
+                  return;
+             }
+             
+            //  筛选起飞时间
+            if(this.flightTimes){
+                const start = +this.flightTimes.split(',')[0];
+                const end = +this.flightTimes.split(',')[1];
+                const hour = Number(v.dep_time.split(':')[0]);
+                if(hour < start || hour >= end){
+                    valid = false;
+                    return;
+                }
+            }
+
+            //  筛选航空公司
+            if(this.company && this.company !== v.airline_name){
+                valid = false
+                return;
+            }
+
+            // 筛选机型大小
+            if(this.airSize && this.airSize !== v.plane_size){
+                valid = false;
+                return;
+            }
+
+            return valid;
+         })
+            // console.log(newData)
+            this.$emit('getData',newData);
+             return '';
+         }
     },
     methods: {
         // 选择机场时候触发

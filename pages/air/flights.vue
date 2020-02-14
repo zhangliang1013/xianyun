@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <FlightsFilters :data='backupFlightsData'></FlightsFilters>
+        <FlightsFilters :data='backupFlightsData' @getData='getData'></FlightsFilters>
 
         <!-- 航班头部布局 -->
         <FlightsListHead></FlightsListHead>
@@ -86,6 +86,11 @@ export default {
     handleCurrentChange(val) {
        this.pageIndex = val;
       console.log(val)
+    },
+    // 接收筛选的数据
+    getData(data){
+        this.flightsData.flights = data;
+        this.flightsData.total = data.length;
     }
   },
   mounted() {
@@ -97,6 +102,7 @@ export default {
     this.getParameter.destCity = getCity;
     this.getParameter.destCode = getCityNum;
     this.getParameter.departDate = goDate;
+    // this.$route.query = this.getParameter
     this.$axios({
       url: "/airs",
       params: this.getParameter
