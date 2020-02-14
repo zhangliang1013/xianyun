@@ -4,7 +4,7 @@
       <!-- 顶部过滤列表 -->
       <div class="flights-content">
         <!-- 过滤条件 -->
-        <FlightsFilters></FlightsFilters>
+        <FlightsFilters :data='backupFlightsData'></FlightsFilters>
 
         <!-- 航班头部布局 -->
         <FlightsListHead></FlightsListHead>
@@ -56,7 +56,11 @@ export default {
       // 储存机票列表信息
       flightsData: {},
       // 备份机票列表信息
-      backupFlightsData: {},
+      backupFlightsData: {
+          info : {},
+          flights : [],
+          options : []
+      },
       //   分页的数据
       pageIndex: 1,
       pageSize: 3
@@ -81,7 +85,7 @@ export default {
     },
     handleCurrentChange(val) {
        this.pageIndex = val;
-    //  console.log(val)
+      console.log(val)
     }
   },
   mounted() {
@@ -99,8 +103,9 @@ export default {
     }).then(res => {
       // console.log(res)
       this.flightsData = res.data;
-      console.log(this.flightsData);
+    //   console.log(this.flightsData);
       this.backupFlightsData = { ...res.data };
+      console.log( this.backupFlightsData)
     });
   }
 };
