@@ -14,9 +14,7 @@
                 
                 
                 <!-- 航班信息 -->
-                <div>
-                    
-                </div>
+                 <FlightsItem v-for="(item,index) in flightsData.flights" :key="index" :data='item'></FlightsItem>
             </div>
 
             <!-- 侧边栏 -->
@@ -28,16 +26,47 @@
 </template>
 
 <script>
-import FlightsListHead from '@/components/air/flightsListHead'
+import FlightsListHead from '@/components/air/flightsListHead';
+import FlightsItem from '@/components/air/flightsItem'
 
 export default {
     components : {
-    FlightsListHead
+    FlightsListHead,FlightsItem
     },
     data(){
         return {
-            
+            // 储存参数
+            getParameter : {
+                departCity : '',
+                departCode : '',
+                destCity : '',
+                destCode : '',
+                departDate : ''
+            },
+            // 储存机票列表信息
+            flightsData : {},
+            // 备份机票列表信息
+            backupFlightsData : {}
         }
+    },
+    mounted(){
+        // 获取机票列表信息
+        const data = this.$route.query;
+        const {goCity , goCityNum, getCity ,getCityNum,goDate} = data;
+        this.getParameter.departCity = goCity
+        this.getParameter.departCode = goCityNum
+        this.getParameter.destCity =getCity
+        this.getParameter.destCode = getCityNum
+        this.getParameter.departDate = goDate
+        this.$axios({
+            url : '/airs',
+            params : this.getParameter
+        }).then(res => {
+            // console.log(res)
+            this.flightsData = res.data;
+            console.log(this.flightsData)
+            this.backupFlightsData = {...res.data};
+        })
     }
 }
 </script>
