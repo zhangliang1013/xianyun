@@ -201,7 +201,12 @@ export default {
 
         // 提交表单是触发
         handleSubmit(){
-           console.log(this.form)
+        //console.log(this.form)
+        this.$router.push({
+            path : '/air/flights',
+            query : this.form
+        })
+        this.$message.success('获取机票列表成功！')
         }
     },
     mounted() {
