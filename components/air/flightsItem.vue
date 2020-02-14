@@ -13,7 +13,7 @@
                             <span>{{data.org_airport_name}}{{data.org_airport_quay}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-time">
-                            <span>2时20分</span>
+                            <span>{{getDeltaT}}</span>
                         </el-col>
                         <el-col :span="8" class="flight-airport">
                             <strong>{{data.arr_time}}</strong>
@@ -59,6 +59,27 @@ export default {
     props : {
         data : Object,
         default : {}
+    },
+    computed: {
+        // 计算飞机的飞行时间
+        getDeltaT(){
+            // 起飞时间
+            const startHour = +this.data.dep_time.split(':')[0];
+            const startMin = +this.data.dep_time.split(':')[1];
+            const start = startHour * 60 + startMin;
+            // 到达时间
+            const endHour = +this.data.arr_time.split(':')[0];
+            const endMin = +this.data.arr_time.split(':')[1];
+            var end = endHour * 60 + endMin;
+             
+             if(start >= end){
+                 end += 60 * 24;
+             }
+
+             const hour = Math.floor((end-start)/60);
+             const min = (end - start) % 60 ; 
+            return `${hour}时${min}分`
+        }
     }
 }
 </script>
