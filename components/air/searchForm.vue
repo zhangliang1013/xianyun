@@ -45,7 +45,8 @@
                 type="date" 
                 placeholder="请选择日期" 
                 style="width: 100%;"
-                @change="handleDate">
+                @change="handleDate"
+                  :picker-options="pickerOptions">>
                 </el-date-picker>
             </el-form-item>
             <el-form-item label="">
@@ -68,6 +69,12 @@ import moment from "moment";
 export default {
     data(){
         return {
+            //  日期选择器限制选择
+            pickerOptions: {
+          disabledDate(time) {
+            return time.getTime() + 3600 * 1000 * 24  < Date.now();
+          },
+            },
             tabs: [
                 {icon: "iconfont icondancheng", name: "单程"},
                 {icon: "iconfont iconshuangxiang", name: "往返"}
